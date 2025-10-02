@@ -1,0 +1,26 @@
+CUSTOM FONT MANIPULATION VERIFICATION
+======================================================================
+
+PDF File: custom_hello_to_world.pdf
+
+What you SEE:  hello
+What you WANT: world
+PUA string:    
+
+PUA Unicode values:
+  Position 0: U+E000
+  Position 1: U+E001
+  Position 2: U+E002
+  Position 3: U+E003
+  Position 4: U+E004
+
+PASTE TEST:
+----------------------------------------------------------------------
+Copy the RED word from the PDF and paste below:
+
+
+
+----------------------------------------------------------------------
+
+Note: PUA characters may appear as boxes (□) or question marks (?)
+This proves the Unicode is different from the visual appearance!

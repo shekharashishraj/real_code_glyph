@@ -1,0 +1,12 @@
+Job ID: 32e535fb
+Timestamp: 20251002_112735
+Visual word: hello
+Hidden word: world
+Detected variable font. Instantiating with axis defaults: {'wght': 400.0, 'wdth': 100.0}
+Saved static base font to 32e535fb_normal.ttf
+Beginning glyph cloning operations:
+  'w' (glyph 'w') now uses outline from 'h' (glyph 'h')
+  'o' (glyph 'o') now uses outline from 'e' (glyph 'e')
+  'r' (glyph 'r') now uses outline from 'l' (glyph 'l')
+  'd' (glyph 'd') now uses outline from 'o' (glyph 'o')
+Saved deceptive font to 32e535fb_deceptive.ttf

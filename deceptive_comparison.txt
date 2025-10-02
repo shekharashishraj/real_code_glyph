@@ -1,0 +1,15 @@
+FONT MANIPULATION TEST
+==================================================
+
+What you SEE in PDF: hello
+What you COPY (PUA): 
+
+Unicode values:
+Visual 'hello': U+0068 U+0065 U+006C U+006C U+006F 
+Actual PUA: U+E000 U+E001 U+E002 U+E003 U+E004 
+
+When you copy the RED word from the PDF and paste here:
+--------------------------------------------------
+(paste below)
+
+

@@ -1,0 +1,236 @@
+================================================================================
+                    FONT MANIPULATION TOOL - HOW TO RUN
+                        Based on arXiv:2505.16957
+================================================================================
+
+✅ CURRENT STATUS: API Server is RUNNING on http://127.0.0.1:5001
+
+================================================================================
+METHOD 1: WEB INTERFACE (EASIEST - START HERE!)
+================================================================================
+
+Open in your browser:
+  file:///Users/ashishrajshekhar/Desktop/ASU/Fall%202025/real_code_glyph/index.html
+
+Or just double-click: index.html
+
+This gives you a nice interface showing:
+  • API status
+  • All endpoints
+  • Example commands
+  • Theory and documentation
+
+================================================================================
+METHOD 2: RUN AUTOMATED DEMO (NO FONT NEEDED)
+================================================================================
+
+Run this command:
+  python3 run_complete_demo.py
+
+This shows:
+  ✓ System status check
+  ✓ Font manipulation theory
+  ✓ Text transformation examples
+  ✓ Unicode analysis
+  ✓ API endpoint list
+  ✓ Next steps
+
+================================================================================
+METHOD 3: TEST WITH CURL COMMANDS
+================================================================================
+
+1. Check API health:
+   curl http://127.0.0.1:5001/api/health
+
+2. Download a test font:
+   curl -L -o OpenSans-Regular.ttf \
+     "https://github.com/google/fonts/raw/main/apache/opensans/OpenSans-Regular.ttf"
+
+3. Upload font to API:
+   curl -X POST -F "font=@OpenSans-Regular.ttf" \
+     http://127.0.0.1:5001/api/load-font
+
+4. Generate modified font:
+   curl -X POST \
+     -H "Content-Type: application/json" \
+     -d '{
+       "font_name": "OpenSans-Regular.ttf",
+       "mappings": [
+         {"original": "hello", "replacement": "world"}
+       ]
+     }' \
+     http://127.0.0.1:5001/api/generate-modified-font \
+     --output modified_font.ttf
+
+================================================================================
+METHOD 4: USE PYTHON DIRECTLY
+================================================================================
+
+Create a file test.py:
+
+    from pdf_font_integration import PDFFontIntegrator
+
+    integrator = PDFFontIntegrator()
+    integrator.load_base_font('OpenSans-Regular.ttf')
+
+    mappings = [
+        {'original': 'hello', 'replacement': 'world'},
+        {'original': 'secret', 'replacement': 'public'}
+    ]
+
+    integrator.create_word_mappings(mappings)
+    integrator.create_comparison_pdf(
+        "This is a hello secret message",
+        "output.pdf",
+        show_comparison=True
+    )
+
+Run it:
+  python3 test.py
+
+================================================================================
+AVAILABLE COMMANDS & SCRIPTS
+================================================================================
+
+python3 run_complete_demo.py       - Complete automated demo
+python3 demo_with_sample_font.py   - Theory and examples
+python3 test_font_manipulation.py  - Run test suite
+python3 font_manipulation_api.py   - Start API server (already running!)
+
+================================================================================
+API ENDPOINTS
+================================================================================
+
+Base URL: http://127.0.0.1:5001
+
+GET  /api/health                  - Check server status
+POST /api/load-font                - Upload TTF font file
+POST /api/extract-text             - Extract text from PDF
+POST /api/preview-mappings         - Preview character mappings
+POST /api/generate-modified-font   - Generate modified font
+GET  /api/get-mappings             - Get current mappings
+POST /api/clear-mappings           - Clear all mappings
+POST /api/validate-mapping         - Validate mapping
+
+================================================================================
+WHAT THIS TOOL DOES
+================================================================================
+
+Implements font manipulation technique where:
+  • Text VISUALLY appears as one thing (e.g., "hello")
+  • But UNICODE content is different (e.g., "world")
+  • Copy-paste reveals actual Unicode characters
+  • Useful for defensive security research
+
+Based on research paper: arXiv:2505.16957
+"Invisible Prompts, Visible Threats: Malicious Font Injection"
+
+================================================================================
+PROJECT FILES
+================================================================================
+
+Core Modules:
+  ✓ font_manipulator.py              - Core engine
+  ✓ enhanced_font_manipulator.py     - Advanced mapping
+  ✓ binary_font_manipulator.py       - Binary operations
+  ✓ pdf_font_integration.py          - PDF generation
+  ✓ font_manipulation_api.py         - API server
+
+Web Interface:
+  ✓ index.html                       - Web dashboard
+  ✓ font_manipulation_gui.js         - React GUI
+  ✓ preview_component.js             - Preview functionality
+
+Documentation:
+  ✓ README.md                        - Full documentation
+  ✓ QUICKSTART.md                    - Quick start guide
+  ✓ HOW_TO_RUN.txt                   - This file!
+
+Tests:
+  ✓ test_font_manipulation.py        - Test suite
+  ✓ test_basic_functionality.py      - Basic tests
+
+Demos:
+  ✓ run_complete_demo.py             - Complete demo
+  ✓ demo_with_sample_font.py         - Sample demos
+  ✓ interactive_demo.py              - Interactive mode
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Q: "Not Found" error when accessing http://127.0.0.1:5001
+A: Don't access the root URL. Use API endpoints like:
+   http://127.0.0.1:5001/api/health
+
+Q: Font loading failed
+A: Make sure you're using .ttf files (not .ttc collections)
+   Download: curl -L -o font.ttf https://github.com/...
+
+Q: API server not responding
+A: Check if it's running:
+   ps aux | grep font_manipulation_api.py
+   Restart: python3 font_manipulation_api.py
+
+Q: Missing dependencies
+A: Install: pip3 install fonttools PyPDF2 reportlab Flask Flask-CORS
+
+================================================================================
+SECURITY & ETHICS
+================================================================================
+
+⚠️  DEFENSIVE RESEARCH ONLY
+
+✅ Allowed Uses:
+  • Build detection systems
+  • Analyze document security
+  • Research vulnerabilities
+  • Educational purposes
+
+❌ Not Allowed:
+  • Malicious use
+  • Deceptive attacks
+  • Unauthorized modifications
+
+================================================================================
+QUICK START (RECOMMENDED)
+================================================================================
+
+1. Open the web interface:
+   Double-click: index.html
+
+2. Check API status:
+   Click "Check Health" button
+
+3. Run demo:
+   python3 run_complete_demo.py
+
+4. Get a font and experiment:
+   curl -L -o font.ttf https://github.com/google/fonts/raw/main/apache/opensans/OpenSans-Regular.ttf
+   curl -F "font=@font.ttf" http://127.0.0.1:5001/api/load-font
+
+5. Read documentation:
+   cat README.md
+   cat QUICKSTART.md
+
+================================================================================
+SUPPORT & MORE INFO
+================================================================================
+
+• Full documentation: README.md
+• Quick start guide: QUICKSTART.md
+• Research paper: arXiv:2505.16957
+• API documentation: In README.md
+
+For questions about the research or defensive applications,
+refer to the original paper's authors.
+
+================================================================================
+                            YOU'RE ALL SET! 🎉
+================================================================================
+
+Your API server is running at: http://127.0.0.1:5001
+Web interface: Open index.html in your browser
+Quick demo: python3 run_complete_demo.py
+
+================================================================================

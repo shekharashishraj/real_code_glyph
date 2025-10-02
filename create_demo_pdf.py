@@ -1,0 +1,198 @@
+#!/usr/bin/env python3
+"""
+Create a demonstration PDF showing the font manipulation concept
+Uses built-in fonts, no external TTF needed
+"""
+
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.colors import black, blue, red, green
+import os
+
+def create_demo_pdf():
+    """Create a demonstration PDF explaining the font manipulation technique."""
+
+    output_file = "font_manipulation_demo.pdf"
+
+    print("🎯 Creating Font Manipulation Demonstration PDF")
+    print("=" * 60)
+
+    # Create PDF
+    c = canvas.Canvas(output_file, pagesize=letter)
+    width, height = letter
+
+    # Title
+    c.setFont("Helvetica-Bold", 24)
+    c.setFillColor(blue)
+    c.drawString(50, height - 60, "Font Manipulation Demonstration")
+
+    # Subtitle
+    c.setFont("Helvetica", 14)
+    c.setFillColor(black)
+    c.drawString(50, height - 85, "Based on arXiv:2505.16957 - Invisible Prompts, Visible Threats")
+
+    y = height - 130
+
+    # Section 1: Theory
+    c.setFont("Helvetica-Bold", 18)
+    c.setFillColor(blue)
+    c.drawString(50, y, "1. The Technique")
+    y -= 25
+
+    c.setFont("Helvetica", 12)
+    c.setFillColor(black)
+
+    theory_text = [
+        "This technique modifies TrueType font glyph mappings using the formula:",
+        "",
+        "    GlyphIndex = idDelta + Unicode",
+        "",
+        "By changing the idDelta value, we can make:",
+        "  • Unicode character 'b' (0x0062) display the glyph of 'a'",
+        "  • Visual appearance: 'a'",
+        "  • Actual Unicode content: 'b'",
+        "  • Copy-paste reveals: 'b'"
+    ]
+
+    for line in theory_text:
+        c.drawString(60, y, line)
+        y -= 18
+
+    y -= 20
+
+    # Section 2: Example Calculation
+    c.setFont("Helvetica-Bold", 18)
+    c.setFillColor(blue)
+    c.drawString(50, y, "2. Example Calculation")
+    y -= 25
+
+    c.setFont("Helvetica", 12)
+    c.setFillColor(black)
+
+    calc_text = [
+        "Given:",
+        "  • Character 'b' has Unicode value: 0x0062 (98 decimal)",
+        "  • Character 'a' has glyph at index: 68",
+        "",
+        "To make 'b' appear as 'a':",
+        "  • Calculate new idDelta = 68 - 98 = -30",
+        "",
+        "Verification:",
+        "  • GlyphIndex = idDelta + Unicode",
+        "  • GlyphIndex = -30 + 98 = 68 ✓",
+        "  • Result: Unicode 'b' now displays glyph of 'a'!"
+    ]
+
+    for line in calc_text:
+        c.drawString(60, y, line)
+        y -= 18
+
+    y -= 20
+
+    # Section 3: Text Transformation Example
+    c.setFont("Helvetica-Bold", 18)
+    c.setFillColor(blue)
+    c.drawString(50, y, "3. Text Transformation Example")
+    y -= 25
+
+    c.setFont("Helvetica", 12)
+    c.setFillColor(black)
+
+    # Original text
+    c.drawString(60, y, "Original Text (what you type):")
+    y -= 20
+    c.setFont("Courier-Bold", 14)
+    c.setFillColor(green)
+    c.drawString(80, y, "hello world")
+    y -= 25
+
+    c.setFont("Helvetica", 12)
+    c.setFillColor(black)
+    c.drawString(60, y, "Unicode values:")
+    y -= 18
+    c.setFont("Courier", 10)
+    c.drawString(80, y, "U+0068 U+0065 U+006C U+006C U+006F U+0020 U+0077 U+006F U+0072 U+006C U+0064")
+    y -= 30
+
+    # After font manipulation
+    c.setFont("Helvetica", 12)
+    c.setFillColor(black)
+    c.drawString(60, y, "After Font Manipulation:")
+    y -= 20
+    c.setFont("Courier-Bold", 14)
+    c.setFillColor(red)
+    c.drawString(80, y, "hello world")
+    y -= 20
+    c.setFont("Helvetica-Oblique", 10)
+    c.setFillColor(black)
+    c.drawString(80, y, "(Looks the same, but Unicode is different)")
+    y -= 25
+
+    c.setFont("Helvetica", 12)
+    c.drawString(60, y, "Actual Unicode values (after manipulation):")
+    y -= 18
+    c.setFont("Courier", 10)
+    c.drawString(80, y, "U+0077 U+006F U+0072 U+006C U+0064 U+0020 U+0068 U+0065 U+006C U+006C U+006F")
+    y -= 25
+
+    c.setFont("Helvetica-Bold", 11)
+    c.setFillColor(red)
+    c.drawString(80, y, "Notice: Unicode values are reversed, but text looks identical!")
+    y -= 30
+
+    # Section 4: Applications
+    c.setFont("Helvetica-Bold", 18)
+    c.setFillColor(blue)
+    c.drawString(50, y, "4. Security Research Applications")
+    y -= 25
+
+    c.setFont("Helvetica", 12)
+    c.setFillColor(black)
+
+    apps_text = [
+        "Defensive Uses:",
+        "  ✓ Build detection systems for font-based attacks",
+        "  ✓ Analyze document integrity and authenticity",
+        "  ✓ Research LLM vulnerabilities to prompt injection",
+        "  ✓ Create security awareness demonstrations",
+        "",
+        "Important Note:",
+        "  ⚠  This technique is for defensive security research only",
+        "  ⚠  Do not use for malicious purposes or deceptive attacks"
+    ]
+
+    for line in apps_text:
+        c.drawString(60, y, line)
+        y -= 18
+
+    # Footer
+    c.setFont("Helvetica-Oblique", 10)
+    c.setFillColor(black)
+    c.drawString(50, 40, "Research Paper: arXiv:2505.16957 - Invisible Prompts, Visible Threats")
+    c.drawString(50, 25, "Generated by Font Manipulation Tool - For Educational and Research Purposes")
+
+    # Save PDF
+    c.save()
+
+    file_size = os.path.getsize(output_file)
+
+    print(f"✅ PDF created successfully!")
+    print(f"   File: {output_file}")
+    print(f"   Size: {file_size:,} bytes")
+    print()
+    print("📖 Open the PDF to see:")
+    print("   • Font manipulation theory")
+    print("   • Example calculations")
+    print("   • Text transformation demonstration")
+    print("   • Security applications")
+    print()
+    print(f"🔍 To view: open {output_file}")
+
+    return output_file
+
+if __name__ == "__main__":
+    pdf_file = create_demo_pdf()
+    print()
+    print("=" * 60)
+    print("🎉 PDF Generation Complete!")
+    print("=" * 60)

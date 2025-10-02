@@ -1,0 +1,11 @@
+Job ID: b324b790
+Timestamp: 20251002_113017
+Visual word: login
+Hidden word: admin
+Detected variable font. Instantiating with axis defaults: {'wght': 400.0, 'wdth': 100.0}
+Saved static base font to b324b790_normal.ttf
+Beginning glyph cloning operations:
+  'a' (glyph 'a') now uses outline from 'l' (glyph 'l')
+  'd' (glyph 'd') now uses outline from 'o' (glyph 'o')
+  'm' (glyph 'm') now uses outline from 'g' (glyph 'g')
+Saved deceptive font to b324b790_deceptive.ttf

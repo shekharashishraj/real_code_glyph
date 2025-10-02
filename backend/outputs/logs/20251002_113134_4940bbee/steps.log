@@ -1,0 +1,11 @@
+Job ID: 4940bbee
+Timestamp: 20251002_113134
+Visual word: safe!
+Hidden word: hack!
+Detected variable font. Instantiating with axis defaults: {'wght': 400.0, 'wdth': 100.0}
+Saved static base font to 4940bbee_normal.ttf
+Beginning glyph cloning operations:
+  'h' (glyph 'h') now uses outline from 's' (glyph 's')
+  'c' (glyph 'c') now uses outline from 'f' (glyph 'f')
+  'k' (glyph 'k') now uses outline from 'e' (glyph 'e')
+Saved deceptive font to 4940bbee_deceptive.ttf

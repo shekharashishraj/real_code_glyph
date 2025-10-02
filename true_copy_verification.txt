@@ -1,0 +1,25 @@
+TRUE COPY MANIPULATION VERIFICATION
+======================================================================
+
+PDF File: true_copy_hello_hides_world.pdf
+
+What you SEE in PDF:  hello
+What you COPY:        world
+
+Expected Unicode values when copying:
+  Position 0: 'w' = U+0077
+  Position 1: 'o' = U+006F
+  Position 2: 'r' = U+0072
+  Position 3: 'l' = U+006C
+  Position 4: 'd' = U+0064
+
+PASTE TEST:
+----------------------------------------------------------------------
+Copy the RED word from the PDF and paste below:
+
+
+
+----------------------------------------------------------------------
+
+Expected result: world
+This proves the actual text is different from visual appearance!
