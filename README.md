@@ -1,170 +1,173 @@
-# Font Manipulation Tool
+# Font Manipulation for Deceptive PDFs
 
-A web-based tool for creating deceptive PDFs using font manipulation techniques based on arXiv:2505.16957.
+A research implementation of font manipulation techniques for creating deceptive PDFs where text displays differently from what it copies as. Based on arXiv:2505.16957.
 
-## Features
+## 🎯 Project Overview
 
-✅ **Truly Selective Manipulation** - Only specific word instances affected
-✅ **Multiple Manipulation Modes** - Cyrillic, PUA, and dual-font approaches
-✅ **Clean React UI** - Modern, responsive interface
-✅ **Flask Backend** - Robust API with multiple manipulators
+This project demonstrates how font manipulation can be used to create PDFs where:
+- **Visual Text**: What the user sees on screen
+- **Hidden Text**: What gets copied to clipboard or extracted by text tools
 
-## Project Structure
+**Example**: Display "hello" but copy as "anita"
+
+## 📁 Project Structure
 
 ```
 real_code_glyph/
-├── backend/              # Flask API
+├── backend/              # Flask API server
 │   ├── app.py           # Main API server
-│   ├── manipulators/    # Manipulation modules
-│   │   ├── truly_selective.py
-│   │   ├── cyrillic.py
-│   │   └── pua.py
-│   ├── fonts/           # Base fonts
-│   ├── outputs/         # Generated PDFs
-│   └── requirements.txt
+│   ├── manipulators/    # Font manipulation modules
+│   │   ├── truly_selective.py          # V1 - Basic
+│   │   ├── truly_selective_v3.py       # V3 - OpenType (experimental)
+│   │   ├── truly_selective_v4.py       # V4 - Unicode alternates (RECOMMENDED)
+│   │   ├── unicode_alternates.json     # 700+ character mappings
+│   │   ├── cyrillic.py                 # Cyrillic homoglyphs
+│   │   └── pua.py                      # Private Use Area
+│   ├── test_v4.py       # Comprehensive test suite
+│   └── README.md        # Detailed API documentation
 │
-└── frontend/            # React UI
-    ├── src/
-    │   ├── App.jsx
-    │   ├── components/
-    │   └── main.jsx
-    ├── package.json
-    └── vite.config.js
+├── frontend/            # React UI (Vite + React)
+│   ├── src/
+│   │   ├── App.jsx      # Main application
+│   │   └── ...
+│   └── package.json
+│
+├── docs/                # Documentation
+│   ├── backend.md
+│   ├── frontend.md
+│   └── repository-overview.md
+│
+└── tests/               # Integration tests
+    └── test_truly_selective.py
 ```
 
-## Setup & Installation
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.8+
+- Node.js 18+
+- XeLaTeX (for PDF generation)
 
 ### Backend Setup
 
 ```bash
 cd backend
 pip install -r requirements.txt
+python app.py
 ```
+
+Server runs on `http://localhost:5001`
+
+**API Endpoints:**
+- `GET /api/health` - Health check
+- `GET /api/modes` - Available manipulation modes
+- `POST /api/manipulate` - Create manipulated PDF
+- `GET /api/download/<filename>` - Download files
 
 ### Frontend Setup
 
 ```bash
 cd frontend
 npm install
-```
-
-## Running the Application
-
-### 1. Start Backend (Terminal 1)
-
-```bash
-cd backend
-python app.py
-```
-
-Backend runs on `http://localhost:5001`
-
-### 2. Start Frontend (Terminal 2)
-
-```bash
-cd frontend
 npm run dev
 ```
 
-Frontend runs on `http://localhost:3000`
+UI runs on `http://localhost:5173`
 
-### 3. Open Browser
+## 🎯 Manipulation Modes
 
-Navigate to `http://localhost:3000`
+### V4: Unicode Alternates (⭐ RECOMMENDED)
+Uses visually similar Unicode characters to handle repeated characters with different visuals.
 
-## How to Use
+**Example:**
+- Visual: "unidirectional"
+- Hidden: "biidirectional"
+- Copies as: "biıdіrectïonal" (using ı U+0131, і U+0456, ï U+00EF)
 
-1. **Select Manipulation Mode**
-   - Truly Selective (Recommended)
-   - Cyrillic Homoglyphs
-   - Private Use Area (PUA)
+**Supports:**
+- ✅ 700+ Unicode alternate mappings
+- ✅ Up to 10 occurrences per character
+- ✅ All character types (letters, numbers, punctuation)
 
-2. **Configure Words**
-   - Visual Word: What the user sees
-   - Hidden Word: What gets copied
-   - Must be same length!
+### V1: Basic (Limited)
+Simple two-font approach. Cannot handle repeated characters needing different visuals.
 
-3. **Generate PDF**
-   - Click "Generate PDF"
-   - Wait for processing
+### V3: OpenType (Experimental)
+Uses contextual alternates. Not truly selective - affects all pattern instances globally.
 
-4. **Download & Test**
-   - Download the generated PDF
-   - Open and find the RED word
-   - Copy it and paste into text editor
-   - Observe the difference!
+### Cyrillic & PUA
+Alternative techniques with different trade-offs.
 
-## API Endpoints
+## 📊 Testing
 
-### `GET /api/health`
-Check API health
-
-### `GET /api/modes`
-Get available manipulation modes
-
-### `POST /api/manipulate`
-Generate manipulated PDF
-
-**Request:**
-```json
-{
-  "mode": "truly_selective",
-  "visual_word": "hello",
-  "hidden_word": "world"
-}
+### Run Backend Tests
+```bash
+cd backend
+python test_v4.py
 ```
 
-**Response:**
-```json
-{
-  "success": true,
-  "pdf_file": "abc123.pdf",
-  "font_file": "abc123_deceptive.ttf"
-}
+**Latest Results:** 17/19 tests passing (89% success rate)
+
+### Test API Manually
+```bash
+curl -X POST http://localhost:5001/api/manipulate \
+  -H "Content-Type: application/json" \
+  -d '{"mode": "truly_selective_v4", "visual_word": "hello", "hidden_word": "anita"}'
 ```
 
-### `GET /api/download/<filename>`
-Download generated files
+## 📖 Documentation
 
-## Manipulation Modes
+- **Backend API**: See `backend/README.md` for complete API documentation
+- **Technical Details**: See `backend/SOLUTION_SUMMARY.md` for implementation details
+- **Architecture**: See `docs/` for project architecture and design decisions
 
-### 1. Truly Selective (Recommended)
-- Uses two fonts (normal + deceptive)
-- Only specific word instance manipulated
-- All other text completely normal
-- Clean, professional output
+## 🔬 Research Context
 
-### 2. Cyrillic Homoglyphs
-- Maps Cyrillic chars to Latin glyphs
-- Single font solution
-- Copies as Cyrillic characters
-- Survives PDF extraction
+This implementation is based on research into font manipulation techniques for deceptive documents. The project demonstrates:
 
-### 3. Private Use Area (PUA)
-- Uses Unicode PUA range (U+E000+)
-- Precise control
-- Copies as boxes/unknown chars
-- May not survive all PDF operations
+1. **Glyph Cloning**: Copying glyph outlines from visual characters to hidden characters
+2. **Unicode Alternates**: Using lookalike characters from different Unicode blocks
+3. **OpenType Features**: GSUB table manipulation for contextual substitution
+4. **PDF Generation**: Creating documents with embedded deceptive fonts
 
-## Requirements
+## ⚠️ Limitations
 
-### Backend
-- Python 3.10+
-- Flask
-- fonttools
-- XeLaTeX (for PDF generation)
+1. **Word Length**: Both words must be exactly the same length
+2. **Character Occurrences**: Maximum 10 occurrences of same character (V4 mode)
+3. **XeLaTeX Required**: PDF generation requires XeLaTeX installed
+4. **Detection**: Unicode alternates may be detectable under close inspection
 
-### Frontend
-- Node.js 18+
-- React 18
-- Vite
+## 🛠️ Development
 
-## Research Paper
+### Current Branch Structure
+- `main` - Stable version with V1, V3, V4 manipulators
+- `feature_pdf_of_choice` - Clean codebase for new features
 
-Based on: **arXiv:2505.16957** - Invisible Prompts, Visible Threats: Malicious Font Injection
+### Running in Development
 
-## Educational Purpose
+**Backend:**
+```bash
+cd backend
+python app.py  # Runs on port 5001 with hot reload
+```
 
-⚠️ **This tool is for educational and defensive security research only.**
+**Frontend:**
+```bash
+cd frontend
+npm run dev  # Runs on port 5173 with hot reload
+```
 
-Do not use for malicious purposes.
+## 📝 License
+
+For educational and research purposes only.
+
+## 🙏 Acknowledgments
+
+Based on research from arXiv:2505.16957 - Font Manipulation for Deceptive Documents.
+
+## 📧 Support
+
+For detailed technical documentation, see:
+- Backend: `backend/README.md`
+- Frontend: `docs/frontend.md`
+- Testing: `docs/testing-and-verification.md`
