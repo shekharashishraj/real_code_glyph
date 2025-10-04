@@ -1,0 +1,17 @@
+Job ID: 235d32be
+Timestamp: 20251003_221135
+Visual word: Test123
+Hidden word: Data456
+Method: Alternate Unicode Codepoints (V4)
+Variable font instantiated: {'wght': 400.0, 'wdth': 100.0}
+Saved normal font: 235d32be_normal.ttf
+Creating character mappings:
+  Pos 0: 'D' → 'T' (occurrence 1/1)
+  Pos 1: 'a' → 'e' (occurrence 1/2)
+  Pos 2: 't' → 's' (occurrence 1/1)
+  Pos 3: 'ɑ' (U+0251) → 't' (occurrence 2/2)
+  Pos 4: '4' → '1' (occurrence 1/1)
+  Pos 5: '5' → '2' (occurrence 1/1)
+  Pos 6: '6' → '3' (occurrence 1/1)
+Saved deceptive font: 235d32be_deceptive_v4.ttf
+Modified hidden word: 'Datɑ456'

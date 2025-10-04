@@ -1,0 +1,170 @@
+======================================================================
+  FONT MANIPULATION API SERVER
+======================================================================
+  Fonts folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/fonts
+  Output folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/outputs
+  Available modes: ['truly_selective', 'truly_selective_v3', 'cyrillic', 'pua']
+======================================================================
+
+ * Serving Flask app 'app'
+ * Debug mode: on
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.0.188:5001
+[33mPress CTRL+C to quit[0m
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 379-941-130
+127.0.0.1 - - [03/Oct/2025 18:14:21] "GET /api/modes HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:14:21] "GET /api/health HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:14:21] "GET /api/modes HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:14:21] "GET /api/health HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:14:25] "POST /api/manipulate HTTP/1.1" 200 -
+ * Detected change in '/Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/manipulators/truly_selective_v3.py', reloading
+======================================================================
+  FONT MANIPULATION API SERVER
+======================================================================
+  Fonts folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/fonts
+  Output folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/outputs
+  Available modes: ['truly_selective', 'truly_selective_v3', 'cyrillic', 'pua']
+======================================================================
+
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 379-941-130
+127.0.0.1 - - [03/Oct/2025 18:14:53] "POST /api/manipulate HTTP/1.1" 200 -
+ * Detected change in '/Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/manipulators/truly_selective_v4.py', reloading
+======================================================================
+  FONT MANIPULATION API SERVER
+======================================================================
+  Fonts folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/fonts
+  Output folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/outputs
+  Available modes: ['truly_selective', 'truly_selective_v3', 'cyrillic', 'pua']
+======================================================================
+
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 379-941-130
+ * Detected change in '/Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/manipulators/truly_selective_v4.py', reloading
+======================================================================
+  FONT MANIPULATION API SERVER
+======================================================================
+  Fonts folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/fonts
+  Output folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/outputs
+  Available modes: ['truly_selective', 'truly_selective_v3', 'cyrillic', 'pua']
+======================================================================
+
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 379-941-130
+ * Detected change in '/Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/manipulators/truly_selective_v4.py', reloading
+======================================================================
+  FONT MANIPULATION API SERVER
+======================================================================
+  Fonts folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/fonts
+  Output folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/outputs
+  Available modes: ['truly_selective', 'truly_selective_v3', 'cyrillic', 'pua']
+======================================================================
+
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 379-941-130
+ * Detected change in '/Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/manipulators/truly_selective_v4.py', reloading
+======================================================================
+  FONT MANIPULATION API SERVER
+======================================================================
+  Fonts folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/fonts
+  Output folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/outputs
+  Available modes: ['truly_selective', 'truly_selective_v3', 'cyrillic', 'pua']
+======================================================================
+
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 379-941-130
+ * Detected change in '/Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/app.py', reloading
+======================================================================
+  FONT MANIPULATION API SERVER
+======================================================================
+  Fonts folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/fonts
+  Output folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/outputs
+  Available modes: ['truly_selective', 'truly_selective_v3', 'cyrillic', 'pua']
+======================================================================
+
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 379-941-130
+127.0.0.1 - - [03/Oct/2025 18:18:07] "POST /api/manipulate HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:18:56] "GET /api/modes HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:18:56] "GET /api/health HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:18:56] "GET /api/modes HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:18:56] "GET /api/health HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:19:04] "OPTIONS /api/manipulate HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:19:06] "POST /api/manipulate HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:19:08] "GET /api/download/4247b19a.pdf HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:19:43] "OPTIONS /api/manipulate HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:19:46] "POST /api/manipulate HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:19:47] "GET /api/download/f0a9282d.pdf HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:20:08] "OPTIONS /api/manipulate HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:20:10] "POST /api/manipulate HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:20:11] "GET /api/download/adcabf32.pdf HTTP/1.1" 200 -
+ * Detected change in '/Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/manipulators/truly_selective.py', reloading
+======================================================================
+  FONT MANIPULATION API SERVER
+======================================================================
+  Fonts folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/fonts
+  Output folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/outputs
+  Available modes: ['truly_selective', 'truly_selective_v3', 'truly_selective_v4', 'cyrillic', 'pua']
+======================================================================
+
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 379-941-130
+ * Detected change in '/Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/manipulators/truly_selective_v4.py', reloading
+======================================================================
+  FONT MANIPULATION API SERVER
+======================================================================
+  Fonts folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/fonts
+  Output folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/outputs
+  Available modes: ['truly_selective', 'truly_selective_v3', 'truly_selective_v4', 'cyrillic', 'pua']
+======================================================================
+
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 379-941-130
+ * Detected change in '/Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/manipulators/truly_selective_v4.py', reloading
+======================================================================
+  FONT MANIPULATION API SERVER
+======================================================================
+  Fonts folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/fonts
+  Output folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/outputs
+  Available modes: ['truly_selective', 'truly_selective_v3', 'truly_selective_v4', 'cyrillic', 'pua']
+======================================================================
+
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 379-941-130
+127.0.0.1 - - [03/Oct/2025 18:22:42] "POST /api/manipulate HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:22:55] "POST /api/manipulate HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 18:23:07] "[35m[1mPOST /api/manipulate HTTP/1.1[0m" 500 -
+127.0.0.1 - - [03/Oct/2025 21:39:40] "GET /api/health HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 21:39:40] "GET /api/modes HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 21:39:40] "GET /api/health HTTP/1.1" 200 -
+127.0.0.1 - - [03/Oct/2025 21:39:40] "GET /api/modes HTTP/1.1" 200 -
+ * Detected change in '/Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/manipulators/truly_selective_v4.py', reloading
+======================================================================
+  FONT MANIPULATION API SERVER
+======================================================================
+  Fonts folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/fonts
+  Output folder: /Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/outputs
+  Available modes: ['truly_selective', 'truly_selective_v3', 'truly_selective_v4', 'cyrillic', 'pua']
+======================================================================
+
+ * Restarting with stat
+Traceback (most recent call last):
+  File "/Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/app.py", line 18, in <module>
+    from manipulators.truly_selective_v4 import TrulySelectiveManipulatorV4
+  File "/Users/ashishrajshekhar/Desktop/ASU/Fall 2025/real_code_glyph/backend/manipulators/truly_selective_v4.py", line 167
+    "'": ['ʼ', 'ʹ', '՚', '＇', '''],  # Modifier letter apostrophe, prime, variants
+                              ^
+SyntaxError: unterminated triple-quoted string literal (detected at line 432)

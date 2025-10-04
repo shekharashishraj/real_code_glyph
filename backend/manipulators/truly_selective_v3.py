@@ -1,6 +1,6 @@
 """
-Truly Selective Manipulation
-Only affects ONE specific word instance, all other text completely normal
+Truly Selective Manipulation V3
+Uses OpenType contextual alternates to handle cases where same character needs different visuals
 """
 
 import os
@@ -13,8 +13,9 @@ import uuid
 from datetime import datetime
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.varLib import instancer
+from fontTools.feaLib.builder import addOpenTypeFeatures
 
-class TrulySelectiveManipulator:
+class TrulySelectiveManipulatorV3:
     def __init__(self, fonts_folder, output_folder):
         self.fonts_folder = Path(fonts_folder)
         self.output_folder = Path(output_folder)
@@ -22,7 +23,7 @@ class TrulySelectiveManipulator:
 
     def create_manipulation(self, visual_word, hidden_word):
         """
-        Create truly selective manipulation using two fonts.
+        Create truly selective manipulation using contextual alternates.
 
         Returns:
             dict: {
@@ -58,15 +59,15 @@ class TrulySelectiveManipulator:
                 f"Job ID: {job_id}",
                 f"Timestamp: {timestamp}",
                 f"Visual word: {visual_word}",
-                f"Hidden word: {hidden_word}"
+                f"Hidden word: {hidden_word}",
+                f"Method: Contextual Alternates (V3)"
             ]
 
             # Create two fonts
             normal_font_path = self.output_folder / f'{job_id}_normal.ttf'
-            deceptive_font_path = self.output_folder / f'{job_id}_deceptive.ttf'
+            deceptive_font_path = self.output_folder / f'{job_id}_deceptive_v3.ttf'
 
-            # Load base font and, if variable, instantiate it to a static face so we can
-            # manipulate glyph data safely.
+            # Load base font and, if variable, instantiate it to a static face
             base_font_tt = TTFont(str(self.base_font))
             if 'fvar' in base_font_tt:
                 axis_defaults = {axis.axisTag: axis.defaultValue for axis in base_font_tt['fvar'].axes}
@@ -81,9 +82,8 @@ class TrulySelectiveManipulator:
 
             # Work on a fresh copy for deceptive manipulation
             font = TTFont(str(normal_font_path))
-            source_font = TTFont(str(normal_font_path))  # keep pristine copy for cloning
 
-            # Access glyph and metrics tables for glyph cloning approach
+            # Access glyph and metrics tables
             glyf_table = font.get('glyf')
             hmtx_table = font.get('hmtx')
 
@@ -100,6 +100,7 @@ class TrulySelectiveManipulator:
                     'error': 'Unable to read cmap from base font'
                 }
 
+            # Validate all characters exist
             missing_visual_chars = [c for c in set(visual_word) if ord(c) not in cmap]
             if missing_visual_chars:
                 missing = ', '.join(sorted(missing_visual_chars))
@@ -117,58 +118,80 @@ class TrulySelectiveManipulator:
                 }
 
             glyph_set = font.getGlyphSet()
-            source_glyph_set = source_font.getGlyphSet()
 
-            # Check for repeated characters with different visuals
-            char_visual_map = {}
-            for hidden_char, visual_char in zip(hidden_word, visual_word):
-                if hidden_char in char_visual_map and char_visual_map[hidden_char] != visual_char:
-                    return {
-                        'success': False,
-                        'error': f"Character '{hidden_char}' needs different visuals ('{char_visual_map[hidden_char]}' and '{visual_char}'). Use truly_selective_v4 mode instead."
-                    }
-                char_visual_map[hidden_char] = visual_char
+            log_entries.append("Creating alternate glyphs for contextual substitution:")
 
-            log_entries.append("Beginning glyph cloning operations:")
+            # Track which character positions need alternates
+            char_positions = {}
+            for idx, (hidden_char, visual_char) in enumerate(zip(hidden_word, visual_word)):
+                if hidden_char not in char_positions:
+                    char_positions[hidden_char] = []
+                char_positions[hidden_char].append((idx, visual_char))
 
-            # Clone glyph outlines/metrics from the visual characters onto the hidden ones
-            for hidden_char, visual_char in zip(hidden_word, visual_word):
-                hidden_glyph = cmap.get(ord(hidden_char))
-                visual_glyph = cmap.get(ord(visual_char))
+            # Create alternate glyphs for positions that need them
+            alternate_glyphs = {}  # Maps (hidden_char, position) -> alternate_glyph_name
 
-                if not hidden_glyph or not visual_glyph:
-                    return {
-                        'success': False,
-                        'error': f"Missing glyph mapping for pair '{hidden_char}' → '{visual_char}'"
-                    }
+            for hidden_char, positions in char_positions.items():
+                hidden_glyph_name = cmap.get(ord(hidden_char))
 
-                if hidden_glyph == visual_glyph:
-                    # Already identical glyphs, nothing to copy
-                    continue
+                for idx, (pos, visual_char) in enumerate(positions):
+                    visual_glyph_name = cmap.get(ord(visual_char))
 
-                if visual_glyph not in glyf_table.glyphs:
-                    return {
-                        'success': False,
-                        'error': f"Glyph '{visual_glyph}' missing from glyf table"
-                    }
+                    if hidden_glyph_name == visual_glyph_name:
+                        # Same glyph, no alternate needed
+                        log_entries.append(f"  Position {pos}: '{hidden_char}' = '{visual_char}' (same glyph, no alternate)")
+                        continue
 
-                visual_tt_glyph = source_font['glyf'][visual_glyph]
-                pen = TTGlyphPen(source_glyph_set)
-                source_glyph_set[visual_glyph].draw(pen)
-                new_glyph = pen.glyph()
+                    # Create alternate glyph name
+                    alt_suffix = f".alt{pos}"
+                    alt_glyph_name = hidden_glyph_name + alt_suffix
 
-                # Preserve hinting instructions when present
-                if hasattr(visual_tt_glyph, "program") and visual_tt_glyph.program:
-                    new_glyph.program = visual_tt_glyph.program
+                    # Clone the visual glyph to create the alternate
+                    pen = TTGlyphPen(glyph_set)
+                    glyph_set[visual_glyph_name].draw(pen)
+                    new_glyph = pen.glyph()
 
-                glyf_table[hidden_glyph] = new_glyph
+                    # Preserve hinting if present
+                    visual_tt_glyph = font['glyf'][visual_glyph_name]
+                    if hasattr(visual_tt_glyph, "program") and visual_tt_glyph.program:
+                        new_glyph.program = visual_tt_glyph.program
 
-                if visual_glyph in source_font['hmtx'].metrics:
-                    hmtx_table.metrics[hidden_glyph] = source_font['hmtx'].metrics[visual_glyph]
+                    # Add to glyf table
+                    glyf_table[alt_glyph_name] = new_glyph
 
-                log_entries.append(
-                    f"  '{hidden_char}' (glyph '{hidden_glyph}') now uses outline from '{visual_char}' (glyph '{visual_glyph}')"
-                )
+                    # Copy metrics
+                    if visual_glyph_name in font['hmtx'].metrics:
+                        hmtx_table.metrics[alt_glyph_name] = font['hmtx'].metrics[visual_glyph_name]
+
+                    # Add to glyph order
+                    glyph_order = list(font.getGlyphOrder())
+                    if alt_glyph_name not in glyph_order:
+                        glyph_order.append(alt_glyph_name)
+                        font.setGlyphOrder(glyph_order)
+
+                    alternate_glyphs[(hidden_char, pos)] = alt_glyph_name
+
+                    log_entries.append(
+                        f"  Position {pos}: '{hidden_char}' → '{visual_char}' (created {alt_glyph_name})"
+                    )
+
+            # Build contextual substitution feature
+            if alternate_glyphs:
+                fea_code = self._build_calt_feature(hidden_word, visual_word, cmap, alternate_glyphs, log_entries)
+
+                # Add the feature to the font using a temporary file
+                try:
+                    import tempfile
+                    with tempfile.NamedTemporaryFile(mode='w', suffix='.fea', delete=False) as fea_file:
+                        fea_file.write(fea_code)
+                        fea_path = fea_file.name
+
+                    addOpenTypeFeatures(font, fea_path)
+                    os.unlink(fea_path)  # Clean up temp file
+                    log_entries.append("Successfully added OpenType calt feature")
+                except Exception as e:
+                    log_entries.append(f"Warning: Failed to add calt feature: {e}")
+                    # Continue anyway - the alternates are in the font even if feature fails
 
             # Save deceptive font
             font.save(str(deceptive_font_path))
@@ -193,7 +216,7 @@ class TrulySelectiveManipulator:
                     'pdf_file': pdf_file,
                     'font_file': deceptive_font_path.name,
                     'log_dir': str(log_dir.relative_to(self.output_folder)),
-                    'message': 'Selective manipulation successful'
+                    'message': 'Selective manipulation successful (V3 with contextual alternates)'
                 }
             else:
                 return {
@@ -202,10 +225,69 @@ class TrulySelectiveManipulator:
                 }
 
         except Exception as e:
+            import traceback
             return {
                 'success': False,
-                'error': str(e)
+                'error': f"{str(e)}\n{traceback.format_exc()}"
             }
+
+    def _build_calt_feature(self, hidden_word, visual_word, cmap, alternate_glyphs, log_entries):
+        """Build OpenType calt feature code for contextual substitution."""
+
+        # Build context-sensitive substitution rules
+        # We need to substitute based on position in the specific sequence
+
+        fea_lines = [
+            "languagesystem DFLT dflt;",
+            "languagesystem latn dflt;",
+            "",
+            "feature calt {",
+        ]
+
+        # Build a lookup for the entire word context
+        # For each position, if we have an alternate, create a contextual rule
+
+        for pos, (hidden_char, visual_char) in enumerate(zip(hidden_word, visual_word)):
+            if (hidden_char, pos) in alternate_glyphs:
+                hidden_glyph = cmap[ord(hidden_char)]
+                alt_glyph = alternate_glyphs[(hidden_char, pos)]
+
+                # Build context: what comes before and after
+                context_before = []
+                context_after = []
+
+                for i in range(pos):
+                    ctx_char = hidden_word[i]
+                    ctx_glyph = cmap[ord(ctx_char)]
+                    # Check if this position has an alternate
+                    if (ctx_char, i) in alternate_glyphs:
+                        ctx_glyph = alternate_glyphs[(ctx_char, i)]
+                    context_before.append(ctx_glyph)
+
+                for i in range(pos + 1, len(hidden_word)):
+                    ctx_char = hidden_word[i]
+                    ctx_glyph = cmap[ord(ctx_char)]
+                    context_after.append(ctx_glyph)
+
+                # Build the substitution rule
+                rule_parts = []
+                if context_before:
+                    rule_parts.append(' '.join(context_before))
+                rule_parts.append(f"{hidden_glyph}' by {alt_glyph}")
+                if context_after:
+                    rule_parts.append(' '.join(context_after))
+
+                rule = "  sub " + ' '.join(rule_parts) + ";"
+                fea_lines.append(rule)
+                log_entries.append(f"  CALT rule: {rule}")
+
+        fea_lines.append("} calt;")
+        fea_lines.append("")
+
+        fea_code = '\n'.join(fea_lines)
+        log_entries.append(f"Generated feature code:\n{fea_code}")
+
+        return fea_code
 
     def _create_pdf(self, visual_word, hidden_word, normal_font, deceptive_font, job_id):
         """Create PDF with mixed fonts."""
@@ -227,14 +309,15 @@ class TrulySelectiveManipulator:
 
 \newfontfamily\deceptivefont{deceptive}[
     Path = """ + temp_dir + r"""/,
-    Extension = .ttf
+    Extension = .ttf,
+    Contextuals = Alternate
 ]
 
 \begin{document}
 
 \begin{center}
-{\Huge \textbf{Font Manipulation Demo}}\\[0.3cm]
-{\large Selective Word Deception}
+{\Huge \textbf{Font Manipulation Demo V3}}\\[0.3cm]
+{\large Contextual Alternates for Same-Character Mapping}
 \end{center}
 
 \vspace{1.5cm}
@@ -254,9 +337,9 @@ All text renders correctly: a b c d e f g h i j k l m n o p q r s t u v w x y z.
 \begin{enumerate}
     \item Look at the three instances below
     \item First: NORMAL
-    \item Second (RED): DECEPTIVE
+    \item Second (RED): DECEPTIVE with contextual alternates
     \item Third: NORMAL
-    \item Copy the RED word
+    \item Copy the RED word - it should copy as """ + hidden_word + r""" but look like """ + visual_word + r"""
 \end{enumerate}
 }}
 \end{center}
@@ -276,8 +359,8 @@ All text renders correctly: a b c d e f g h i j k l m n o p q r s t u v w x y z.
 \begin{itemize}
     \item Visual: \textbf{""" + visual_word + r"""}
     \item Hidden: \texttt{""" + hidden_word + r"""}
-    \item Mode: Truly Selective (Dual Font)
-    \item Only RED word is manipulated
+    \item Mode: V3 - Contextual Alternates (calt)
+    \item Handles same character with different visuals
 \end{itemize}
 
 \begin{center}

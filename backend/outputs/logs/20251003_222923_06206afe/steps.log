@@ -1,0 +1,14 @@
+Job ID: 06206afe
+Timestamp: 20251003_222923
+Visual word: hello
+Hidden word: world
+Method: Alternate Unicode Codepoints (V4) - Using JSON mappings
+Variable font instantiated: {'wght': 400.0, 'wdth': 100.0}
+Saved normal font: 06206afe_normal.ttf
+Creating character mappings:
+  Pos 0: 'w' → 'h' (occurrence 1/1)
+  Pos 1: 'o' → 'e' (occurrence 1/1)
+  Pos 2: 'r' → 'l' (occurrence 1/1)
+  Pos 4: 'd' → 'o' (occurrence 1/1)
+Saved deceptive font: 06206afe_deceptive_v4.ttf
+Modified hidden word: 'world'

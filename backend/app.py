@@ -14,6 +14,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from manipulators.truly_selective import TrulySelectiveManipulator
+from manipulators.truly_selective_v3 import TrulySelectiveManipulatorV3
+from manipulators.truly_selective_v4 import TrulySelectiveManipulatorV4
 from manipulators.cyrillic import CyrillicManipulator
 from manipulators.pua import PUAManipulator
 
@@ -31,6 +33,8 @@ OUTPUT_FOLDER.mkdir(exist_ok=True)
 # Initialize manipulators
 manipulators = {
     'truly_selective': TrulySelectiveManipulator(str(FONTS_FOLDER), str(OUTPUT_FOLDER)),
+    'truly_selective_v3': TrulySelectiveManipulatorV3(str(FONTS_FOLDER), str(OUTPUT_FOLDER)),
+    'truly_selective_v4': TrulySelectiveManipulatorV4(str(FONTS_FOLDER), str(OUTPUT_FOLDER)),
     'cyrillic': CyrillicManipulator(str(FONTS_FOLDER), str(OUTPUT_FOLDER)),
     'pua': PUAManipulator(str(FONTS_FOLDER), str(OUTPUT_FOLDER))
 }
@@ -138,10 +142,24 @@ def get_modes():
         'modes': [
             {
                 'id': 'truly_selective',
-                'name': 'Truly Selective (Recommended)',
-                'description': 'Uses two fonts - only specific word instance is manipulated. All other text completely normal.',
+                'name': 'Truly Selective (Basic)',
+                'description': 'Uses two fonts - only specific word instance is manipulated. Works when each character maps to one visual.',
                 'pros': ['Clean output', 'No side effects', 'Professional'],
-                'cons': ['Requires two fonts']
+                'cons': ['Requires two fonts', 'Same character cannot have different visuals']
+            },
+            {
+                'id': 'truly_selective_v4',
+                'name': 'Truly Selective V4 (Recommended)',
+                'description': 'Uses alternate Unicode codepoints to handle repeated characters with different visuals. Supports all characters including letters, numbers, and punctuation.',
+                'pros': ['Handles repeated characters', 'Supports all characters', 'Most flexible'],
+                'cons': ['Uses similar-looking Unicode alternates']
+            },
+            {
+                'id': 'truly_selective_v3',
+                'name': 'Truly Selective V3 (Experimental)',
+                'description': 'Uses contextual alternates - affects ALL instances of pattern globally, not truly selective.',
+                'pros': ['OpenType features'],
+                'cons': ['Not truly selective', 'Global pattern matching']
             },
             {
                 'id': 'cyrillic',

@@ -1,0 +1,15 @@
+Job ID: 34451af5
+Timestamp: 20251003_223155
+Visual word: unidirectional
+Hidden word: biidirectional
+Method: Alternate Unicode Codepoints (V4) - Using JSON mappings
+Variable font instantiated: {'wght': 400.0, 'wdth': 100.0}
+Saved normal font: 34451af5_normal.ttf
+Creating character mappings:
+  Pos 0: 'b' → 'u' (occurrence 1/1)
+  Pos 1: 'i' → 'n' (occurrence 1/4)
+  Pos 2: 'ı' (U+0131) → 'i' (occurrence 2/4)
+  Pos 4: 'і' (U+0456) → 'i' (occurrence 3/4)
+  Pos 9: 'ï' (U+00EF) → 'i' (occurrence 4/4)
+Saved deceptive font: 34451af5_deceptive_v4.ttf
+Modified hidden word: 'biıdіrectïonal'

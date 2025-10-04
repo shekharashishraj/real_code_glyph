@@ -1,0 +1,19 @@
+Job ID: 4ec79140
+Timestamp: 20251003_222936
+Visual word: algorithm
+Hidden word: procedure
+Method: Alternate Unicode Codepoints (V4) - Using JSON mappings
+Variable font instantiated: {'wght': 400.0, 'wdth': 100.0}
+Saved normal font: 4ec79140_normal.ttf
+Creating character mappings:
+  Pos 0: 'p' → 'a' (occurrence 1/1)
+  Pos 1: 'r' → 'l' (occurrence 1/2)
+  Pos 2: 'o' → 'g' (occurrence 1/1)
+  Pos 3: 'c' → 'o' (occurrence 1/1)
+  Pos 4: 'e' → 'r' (occurrence 1/2)
+  Pos 5: 'd' → 'i' (occurrence 1/1)
+  Pos 6: 'u' → 't' (occurrence 1/1)
+  Pos 7: 'г' (U+0433) → 'h' (occurrence 2/2)
+  Pos 8: 'ə' (U+0259) → 'm' (occurrence 2/2)
+Saved deceptive font: 4ec79140_deceptive_v4.ttf
+Modified hidden word: 'proceduгə'

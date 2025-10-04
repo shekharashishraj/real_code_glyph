@@ -1,0 +1,13 @@
+Job ID: 0acc8571
+Timestamp: 20251003_222941
+Visual word: extinction
+Hidden word: extraction
+Method: Alternate Unicode Codepoints (V4) - Using JSON mappings
+Variable font instantiated: {'wght': 400.0, 'wdth': 100.0}
+Saved normal font: 0acc8571_normal.ttf
+Creating character mappings:
+  Pos 3: 'r' → 'i' (occurrence 1/1)
+  Pos 4: 'a' → 'n' (occurrence 1/1)
+  Pos 6: 'ţ' (U+0163) → 't' (occurrence 2/2)
+Saved deceptive font: 0acc8571_deceptive_v4.ttf
+Modified hidden word: 'extracţion'

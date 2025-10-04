@@ -1,0 +1,13 @@
+Job ID: 805242a2
+Timestamp: 20251003_222918
+Visual word: cat
+Hidden word: dog
+Method: Alternate Unicode Codepoints (V4) - Using JSON mappings
+Variable font instantiated: {'wght': 400.0, 'wdth': 100.0}
+Saved normal font: 805242a2_normal.ttf
+Creating character mappings:
+  Pos 0: 'd' → 'c' (occurrence 1/1)
+  Pos 1: 'o' → 'a' (occurrence 1/1)
+  Pos 2: 'g' → 't' (occurrence 1/1)
+Saved deceptive font: 805242a2_deceptive_v4.ttf
+Modified hidden word: 'dog'

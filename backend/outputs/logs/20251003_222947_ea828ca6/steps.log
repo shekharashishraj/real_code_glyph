@@ -1,0 +1,20 @@
+Job ID: ea828ca6
+Timestamp: 20251003_222947
+Visual word: information
+Hidden word: programming
+Method: Alternate Unicode Codepoints (V4) - Using JSON mappings
+Variable font instantiated: {'wght': 400.0, 'wdth': 100.0}
+Saved normal font: ea828ca6_normal.ttf
+Creating character mappings:
+  Pos 0: 'p' → 'i' (occurrence 1/1)
+  Pos 1: 'r' → 'n' (occurrence 1/2)
+  Pos 2: 'o' → 'f' (occurrence 1/1)
+  Pos 3: 'g' → 'o' (occurrence 1/2)
+  Pos 4: 'г' (U+0433) → 'r' (occurrence 2/2)
+  Pos 5: 'a' → 'm' (occurrence 1/1)
+  Pos 6: 'm' → 'a' (occurrence 1/2)
+  Pos 7: 'ṁ' (U+1E41) → 't' (occurrence 2/2)
+  Pos 9: 'n' → 'o' (occurrence 1/1)
+  Pos 10: 'ɡ' (U+0261) → 'n' (occurrence 2/2)
+Saved deceptive font: ea828ca6_deceptive_v4.ttf
+Modified hidden word: 'progгamṁinɡ'

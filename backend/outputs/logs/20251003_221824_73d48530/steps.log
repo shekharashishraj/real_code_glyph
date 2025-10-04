@@ -1,0 +1,20 @@
+Job ID: 73d48530
+Timestamp: 20251003_221824
+Visual word: helloworld
+Hidden word: fuffafuffi
+Method: Alternate Unicode Codepoints (V4)
+Variable font instantiated: {'wght': 400.0, 'wdth': 100.0}
+Saved normal font: 73d48530_normal.ttf
+Creating character mappings:
+  Pos 0: 'f' → 'h' (occurrence 1/6)
+  Pos 1: 'u' → 'e' (occurrence 1/2)
+  Pos 2: 'ƒ' (U+0192) → 'l' (occurrence 2/6)
+  Pos 3: 'ḟ' (U+1E1F) → 'l' (occurrence 3/6)
+  Pos 4: 'a' → 'o' (occurrence 1/1)
+  Pos 5: 'ϝ' (U+03DD) → 'w' (occurrence 4/6)
+  Pos 6: 'υ' (U+03C5) → 'o' (occurrence 2/2)
+  Pos 7: 'ſ' (U+017F) → 'r' (occurrence 5/6)
+  Pos 8: 'ꞙ' (U+A799) → 'l' (occurrence 6/6)
+  Pos 9: 'i' → 'd' (occurrence 1/1)
+Saved deceptive font: 73d48530_deceptive_v4.ttf
+Modified hidden word: 'fuƒḟaϝυſꞙi'

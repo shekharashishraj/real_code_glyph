@@ -1,0 +1,47 @@
+Job ID: f9a2221d
+Timestamp: 20251003_221243
+Visual word: helloworld
+Hidden word: fuffafuffi
+Method: Contextual Alternates (V3)
+Detected variable font. Instantiating with axis defaults: {'wght': 400.0, 'wdth': 100.0}
+Saved static base font to f9a2221d_normal.ttf
+Creating alternate glyphs for contextual substitution:
+  Position 0: 'f' → 'h' (created f.alt0)
+  Position 2: 'f' → 'l' (created f.alt2)
+  Position 3: 'f' → 'l' (created f.alt3)
+  Position 5: 'f' → 'w' (created f.alt5)
+  Position 7: 'f' → 'r' (created f.alt7)
+  Position 8: 'f' → 'l' (created f.alt8)
+  Position 1: 'u' → 'e' (created u.alt1)
+  Position 6: 'u' → 'o' (created u.alt6)
+  Position 4: 'a' → 'o' (created a.alt4)
+  Position 9: 'i' → 'd' (created i.alt9)
+  CALT rule:   sub f' by f.alt0 u f f a f u f f i;
+  CALT rule:   sub f.alt0 u' by u.alt1 f f a f u f f i;
+  CALT rule:   sub f.alt0 u.alt1 f' by f.alt2 f a f u f f i;
+  CALT rule:   sub f.alt0 u.alt1 f.alt2 f' by f.alt3 a f u f f i;
+  CALT rule:   sub f.alt0 u.alt1 f.alt2 f.alt3 a' by a.alt4 f u f f i;
+  CALT rule:   sub f.alt0 u.alt1 f.alt2 f.alt3 a.alt4 f' by f.alt5 u f f i;
+  CALT rule:   sub f.alt0 u.alt1 f.alt2 f.alt3 a.alt4 f.alt5 u' by u.alt6 f f i;
+  CALT rule:   sub f.alt0 u.alt1 f.alt2 f.alt3 a.alt4 f.alt5 u.alt6 f' by f.alt7 f i;
+  CALT rule:   sub f.alt0 u.alt1 f.alt2 f.alt3 a.alt4 f.alt5 u.alt6 f.alt7 f' by f.alt8 i;
+  CALT rule:   sub f.alt0 u.alt1 f.alt2 f.alt3 a.alt4 f.alt5 u.alt6 f.alt7 f.alt8 i' by i.alt9;
+Generated feature code:
+languagesystem DFLT dflt;
+languagesystem latn dflt;
+
+feature calt {
+  sub f' by f.alt0 u f f a f u f f i;
+  sub f.alt0 u' by u.alt1 f f a f u f f i;
+  sub f.alt0 u.alt1 f' by f.alt2 f a f u f f i;
+  sub f.alt0 u.alt1 f.alt2 f' by f.alt3 a f u f f i;
+  sub f.alt0 u.alt1 f.alt2 f.alt3 a' by a.alt4 f u f f i;
+  sub f.alt0 u.alt1 f.alt2 f.alt3 a.alt4 f' by f.alt5 u f f i;
+  sub f.alt0 u.alt1 f.alt2 f.alt3 a.alt4 f.alt5 u' by u.alt6 f f i;
+  sub f.alt0 u.alt1 f.alt2 f.alt3 a.alt4 f.alt5 u.alt6 f' by f.alt7 f i;
+  sub f.alt0 u.alt1 f.alt2 f.alt3 a.alt4 f.alt5 u.alt6 f.alt7 f' by f.alt8 i;
+  sub f.alt0 u.alt1 f.alt2 f.alt3 a.alt4 f.alt5 u.alt6 f.alt7 f.alt8 i' by i.alt9;
+} calt;
+
+Successfully added OpenType calt feature
+Saved deceptive font to f9a2221d_deceptive_v3.ttf

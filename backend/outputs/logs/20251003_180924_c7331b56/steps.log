@@ -1,0 +1,13 @@
+Job ID: c7331b56
+Timestamp: 20251003_180924
+Visual word: hello
+Hidden word: anita
+Detected variable font. Instantiating with axis defaults: {'wght': 400.0, 'wdth': 100.0}
+Saved static base font to c7331b56_normal.ttf
+Beginning glyph cloning operations:
+  'a' (glyph 'a') now uses outline from 'h' (glyph 'h')
+  'n' (glyph 'n') now uses outline from 'e' (glyph 'e')
+  'i' (glyph 'i') now uses outline from 'l' (glyph 'l')
+  't' (glyph 't') now uses outline from 'l' (glyph 'l')
+  'a' (glyph 'a') now uses outline from 'o' (glyph 'o')
+Saved deceptive font to c7331b56_deceptive.ttf
