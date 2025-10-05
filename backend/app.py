@@ -143,6 +143,13 @@ def get_modes():
     return jsonify({
         'modes': [
             {
+                'id': 'ligature',
+                'name': 'Ligature (⭐ RECOMMENDED)',
+                'description': 'Word-level OpenType ligature substitution. Creates a composite glyph that displays the visual word while preserving hidden word in text layer.',
+                'pros': ['Most reliable', 'Fast (~3s)', 'Proper text layer', 'No length restrictions'],
+                'cons': ['Requires LuaLaTeX']
+            },
+            {
                 'id': 'truly_selective',
                 'name': 'Truly Selective (Basic)',
                 'description': 'Uses two fonts - only specific word instance is manipulated. Works when each character maps to one visual.',
@@ -151,10 +158,10 @@ def get_modes():
             },
             {
                 'id': 'truly_selective_v4',
-                'name': 'Truly Selective V4 (Recommended)',
-                'description': 'Uses alternate Unicode codepoints to handle repeated characters with different visuals. Supports all characters including letters, numbers, and punctuation.',
-                'pros': ['Handles repeated characters', 'Supports all characters', 'Most flexible'],
-                'cons': ['Uses similar-looking Unicode alternates']
+                'name': 'Truly Selective V4',
+                'description': 'Two-font glyph cloning with pristine source copy. Works for same-length words.',
+                'pros': ['Handles unique character mappings', 'Reliable for simple cases'],
+                'cons': ['Same length required', 'Repeated character conflicts']
             },
             {
                 'id': 'truly_selective_v3',

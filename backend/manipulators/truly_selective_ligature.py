@@ -86,41 +86,106 @@ class LigatureManipulator:
             lig_name = f"lig_{hidden_word.replace(' ', '_')}"
 
             # Combine visual glyphs into one ligature glyph
-            # For simplicity, concatenate the glyphs horizontally
             log_entries.append(f"Creating ligature glyph '{lig_name}' for '{hidden_word}' → '{visual_word}'")
 
-            # Build the ligature by combining visual character glyphs
-            from fontTools.pens.boundsPen import BoundsPen
+            # Build the ligature by drawing all character outlines into a single glyph
+            from fontTools.pens.t2CharStringPen import T2CharStringPen
+            from fontTools.misc.psCharStrings import T2CharString
             from fontTools.pens.transformPen import TransformPen
 
-            # Create a new composite glyph
-            pen = TTGlyphPen(source_glyph_set)
-            x_offset = 0
-            total_width = 0
+            # Check if this is a CFF or TrueType font
+            is_cff = 'CFF ' in font or 'CFF2' in font
 
-            for visual_char in visual_word:
-                visual_glyph_name = cmap.get(ord(visual_char))
-                if not visual_glyph_name:
-                    continue
+            if is_cff:
+                # For CFF fonts, use T2CharStringPen
+                charstring_pen = T2CharStringPen(width=0, glyphSet=source_glyph_set)
+                x_offset = 0
+                total_width = 0
 
-                # Get the glyph and its width
-                visual_glyph = source_glyph_set[visual_glyph_name]
-                width = source_font['hmtx'].metrics[visual_glyph_name][0]
+                for visual_char in visual_word:
+                    visual_glyph_name = cmap.get(ord(visual_char))
+                    if not visual_glyph_name:
+                        continue
 
-                # Draw the glyph with horizontal offset
-                transform_pen = TransformPen(pen, (1, 0, 0, 1, x_offset, 0))
-                visual_glyph.draw(transform_pen)
+                    visual_glyph = source_glyph_set[visual_glyph_name]
+                    width = source_font['hmtx'].metrics[visual_glyph_name][0]
 
-                x_offset += width
-                total_width += width
+                    transform_pen = TransformPen(charstring_pen, (1, 0, 0, 1, x_offset, 0))
+                    visual_glyph.draw(transform_pen)
 
-            new_glyph = pen.glyph()
+                    x_offset += width
+                    total_width += width
 
-            # Add the ligature glyph to the font
-            glyf_table[lig_name] = new_glyph
-            hmtx_table.metrics[lig_name] = (total_width, 0)  # Total width, left side bearing
+                charstring = charstring_pen.getCharString()
+                font['CFF '].cff[0].CharStrings[lig_name] = charstring
+            else:
+                # For TrueType fonts, we need to build the glyf table entry manually
+                from fontTools import ttLib
+                from fontTools.pens.ttGlyphPen import TTGlyphPen
 
-            log_entries.append(f"Ligature glyph width: {total_width}")
+                # Collect all coordinates and contours
+                all_coordinates = []
+                all_flags = []
+                all_endPtsOfContours = []
+                x_offset = 0
+                total_width = 0
+                current_point_index = 0
+
+                for visual_char in visual_word:
+                    visual_glyph_name = cmap.get(ord(visual_char))
+                    if not visual_glyph_name:
+                        continue
+
+                    # Get the source glyph from glyf table
+                    source_glyph = source_font['glyf'][visual_glyph_name]
+                    width = source_font['hmtx'].metrics[visual_glyph_name][0]
+
+                    # Only process if it's a simple glyph (not composite)
+                    if source_glyph.numberOfContours > 0:
+                        # Get coordinates and transform them
+                        coordinates = source_glyph.coordinates
+                        flags = source_glyph.flags
+                        endPtsOfContours = source_glyph.endPtsOfContours
+
+                        # Transform coordinates by x_offset
+                        for coord in coordinates:
+                            all_coordinates.append((coord[0] + x_offset, coord[1]))
+
+                        # Copy flags
+                        all_flags.extend(flags)
+
+                        # Update endPtsOfContours indices
+                        for endPt in endPtsOfContours:
+                            all_endPtsOfContours.append(endPt + current_point_index)
+
+                        current_point_index += len(coordinates)
+
+                    x_offset += width
+                    total_width += width
+
+                # Create new glyph
+                from fontTools.ttLib.tables import _g_l_y_f as glyf
+                new_glyph = glyf.Glyph()
+                new_glyph.numberOfContours = len(all_endPtsOfContours)
+
+                if new_glyph.numberOfContours > 0:
+                    new_glyph.coordinates = ttLib.tables._g_l_y_f.GlyphCoordinates(all_coordinates)
+                    new_glyph.flags = all_flags
+                    new_glyph.endPtsOfContours = all_endPtsOfContours
+                    new_glyph.program = ttLib.tables._g_l_y_f.ttProgram.Program()
+                    new_glyph.program.fromBytecode(b'')
+
+                glyf_table[lig_name] = new_glyph
+                hmtx_table.metrics[lig_name] = (total_width, 0)
+
+            # Add glyph name to glyph order (must be done before addOpenTypeFeatures)
+            glyph_order = font.getGlyphOrder()
+            if lig_name not in glyph_order:
+                glyph_order.append(lig_name)
+                font.setGlyphOrder(glyph_order)
+                log_entries.append(f"Added '{lig_name}' to glyph order (total glyphs: {len(glyph_order)})")
+
+            log_entries.append(f"Ligature glyph created with {len(visual_word)} characters, total width: {total_width}")
 
             # Create OpenType ligature feature
             # The liga feature will substitute hidden_word characters with the ligature
@@ -143,6 +208,8 @@ feature liga {{
                 fea_file.write(fea_code)
                 fea_path = fea_file.name
 
+            # NOTE: The ligature glyph name will be changed to "glyph####" when saved due to post table format 3.0
+            # This is normal and doesn't affect functionality - the GSUB table is automatically updated
             # Add the feature to the font
             try:
                 addOpenTypeFeatures(font, fea_path)
