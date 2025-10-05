@@ -16,6 +16,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from manipulators.truly_selective import TrulySelectiveManipulator
 from manipulators.truly_selective_v3 import TrulySelectiveManipulatorV3
 from manipulators.truly_selective_v4 import TrulySelectiveManipulatorV4
+from manipulators.truly_selective_ligature import LigatureManipulator
 from manipulators.cyrillic import CyrillicManipulator
 from manipulators.pua import PUAManipulator
 
@@ -35,6 +36,7 @@ manipulators = {
     'truly_selective': TrulySelectiveManipulator(str(FONTS_FOLDER), str(OUTPUT_FOLDER)),
     'truly_selective_v3': TrulySelectiveManipulatorV3(str(FONTS_FOLDER), str(OUTPUT_FOLDER)),
     'truly_selective_v4': TrulySelectiveManipulatorV4(str(FONTS_FOLDER), str(OUTPUT_FOLDER)),
+    'ligature': LigatureManipulator(str(FONTS_FOLDER), str(OUTPUT_FOLDER)),
     'cyrillic': CyrillicManipulator(str(FONTS_FOLDER), str(OUTPUT_FOLDER)),
     'pua': PUAManipulator(str(FONTS_FOLDER), str(OUTPUT_FOLDER))
 }

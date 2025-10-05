@@ -1,6 +1,6 @@
-# Font Manipulation for Deceptive PDFs
+# Font-Based Text Manipulation System
 
-A research implementation of font manipulation techniques for creating deceptive PDFs where text displays differently from what it copies as. Based on arXiv:2505.16957.
+Implementation of font manipulation techniques from arXiv:2505.16957 for creating PDFs where displayed text differs from selectable/copyable text.
 
 ## 🎯 Project Overview
 
@@ -8,7 +8,7 @@ This project demonstrates how font manipulation can be used to create PDFs where
 - **Visual Text**: What the user sees on screen
 - **Hidden Text**: What gets copied to clipboard or extracted by text tools
 
-**Example**: Display "hello" but copy as "anita"
+**Example**: Display "hello" but copy as "world"
 
 ## 📁 Project Structure
 
@@ -76,66 +76,92 @@ UI runs on `http://localhost:5173`
 
 ## 🎯 Manipulation Modes
 
-### V4: Unicode Alternates (⭐ RECOMMENDED)
-Uses visually similar Unicode characters to handle repeated characters with different visuals.
+### ✅ Ligature (⭐ RECOMMENDED)
+**Word-level OpenType ligature substitution**
+
+Creates a custom font where the entire hidden word is replaced by a single composite glyph that displays the visual word.
 
 **Example:**
-- Visual: "unidirectional"
-- Hidden: "biidirectional"
-- Copies as: "biıdіrectïonal" (using ı U+0131, і U+0456, ï U+00EF)
+- Visual: "hello"
+- Hidden: "world"
+- Copies as: "world"
 
-**Supports:**
-- ✅ 700+ Unicode alternate mappings
-- ✅ Up to 10 occurrences per character
-- ✅ All character types (letters, numbers, punctuation)
+**Features:**
+- ✅ Most reliable and performant (~3 seconds)
+- ✅ Proper text layer for copy/paste
+- ✅ No character length restrictions
+- ✅ Works with any characters in base font
 
-### V1: Basic (Limited)
-Simple two-font approach. Cannot handle repeated characters needing different visuals.
-
-### V3: OpenType (Experimental)
-Uses contextual alternates. Not truly selective - affects all pattern instances globally.
-
-### Cyrillic & PUA
-Alternative techniques with different trade-offs.
-
-## 📊 Testing
-
-### Run Backend Tests
-```bash
-cd backend
-python test_v4.py
-```
-
-**Latest Results:** 17/19 tests passing (89% success rate)
-
-### Test API Manually
+**Usage:**
 ```bash
 curl -X POST http://localhost:5001/api/manipulate \
   -H "Content-Type: application/json" \
-  -d '{"mode": "truly_selective_v4", "visual_word": "hello", "hidden_word": "anita"}'
+  -d '{"mode": "ligature", "visual_word": "hello", "hidden_word": "world"}'
+```
+
+### Other Modes
+
+#### V4: Glyph Cloning
+Two-font approach with pristine source copy. Works for same-length words without repeated character conflicts.
+
+#### V1: Multi-Font Sequential
+Character-level fonts (slower, text extraction issues).
+
+#### PUA: Private Use Area
+Fast but copies as garbled characters.
+
+#### Cyrillic: Homoglyphs
+Limited to characters with Cyrillic lookalikes.
+
+## 📊 Testing
+
+### Quick Test
+```bash
+# Start server
+cd backend
+python3 app.py
+
+# Test ligature mode (recommended)
+curl -X POST http://localhost:5001/api/manipulate \
+  -H "Content-Type: application/json" \
+  -d '{"mode": "ligature", "visual_word": "hello", "hidden_word": "world"}'
+
+# Verify text extraction
+pdftotext outputs/{job_id}.pdf /dev/stdout | grep "Deceptive:"
+# Should show: "Deceptive: world"
+```
+
+### Visual Verification
+```bash
+# Open generated PDF
+open outputs/{job_id}.pdf
+# Visually displays: "hello"
+# Copy text shows: "world"
 ```
 
 ## 📖 Documentation
 
-- **Backend API**: See `backend/README.md` for complete API documentation
-- **Technical Details**: See `backend/SOLUTION_SUMMARY.md` for implementation details
-- **Architecture**: See `docs/` for project architecture and design decisions
+- **Implementation Summary**: See `IMPLEMENTATION_SUMMARY.md` for complete technical details
+- **Backend API**: See `backend/README.md` for API documentation
+- **All Modes Comparison**: See `IMPLEMENTATION_SUMMARY.md` for performance metrics and mode analysis
 
-## 🔬 Research Context
+## 🔬 Key Technical Achievements
 
-This implementation is based on research into font manipulation techniques for deceptive documents. The project demonstrates:
+This implementation demonstrates several font manipulation techniques:
 
-1. **Glyph Cloning**: Copying glyph outlines from visual characters to hidden characters
-2. **Unicode Alternates**: Using lookalike characters from different Unicode blocks
-3. **OpenType Features**: GSUB table manipulation for contextual substitution
-4. **PDF Generation**: Creating documents with embedded deceptive fonts
+1. **✅ Ligature Substitution** (RECOMMENDED): Word-level OpenType ligatures for reliable manipulation
+2. **Glyph Cloning**: Copying glyph outlines with pristine source font to avoid contamination
+3. **Multi-Font Approach**: Character-level font switching (experimental)
+4. **OpenType Features**: GSUB table manipulation for ligature substitution
+5. **PDF Generation**: LuaLaTeX compilation with custom fonts
 
-## ⚠️ Limitations
+## 🎯 Best Practices
 
-1. **Word Length**: Both words must be exactly the same length
-2. **Character Occurrences**: Maximum 10 occurrences of same character (V4 mode)
-3. **XeLaTeX Required**: PDF generation requires XeLaTeX installed
-4. **Detection**: Unicode alternates may be detectable under close inspection
+1. **Use `ligature` mode** for all production use cases
+2. **Remove spaces** from input words (e.g., "alohafriends" not "aloha friends")
+3. **Use LuaLaTeX** for PDF compilation (faster than XeLaTeX)
+4. **Check logs** in `outputs/logs/` for detailed debugging
+5. **Test with pdftotext** to verify text extraction
 
 ## 🛠️ Development
 
